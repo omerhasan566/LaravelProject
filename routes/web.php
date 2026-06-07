@@ -82,3 +82,9 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/login');
 })->name('logout');
+
+Route::get('/shop', function () {
+    $products = Product::all();
+
+    return view('shop', compact('products'));
+})->name('shop.index');
