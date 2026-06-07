@@ -37,6 +37,18 @@ Route::post('/products', function (Request $request) {
     return redirect('/');
 })->middleware('auth')->name('products.store');
 
+Route::put('/products/{product}', function (Request $request, Product $product) {
+    $product->update([
+        'name' => $request->name,
+        'description' => $request->description,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'category_id' => null,
+    ]);
+
+    return redirect('/');
+})->middleware('auth')->name('products.update');
+
 Route::delete('/products/{product}', function (Product $product) {
     $product->delete();
 

@@ -29,6 +29,8 @@ x-data="{
     openAI: false,
     openDeleteModal: false,
 deleteProduct: {},
+openEditProduct: false,
+editProduct: {},
     selectedProduct: {},
     searchQuery: '',
     selectedCategory: 'All'
@@ -383,13 +385,36 @@ class="bg-slate-50 min-h-screen text-slate-900">
                                     @endif
                                 </td>
                                 <td class="px-6 py-5 text-right">
-    <button
-    type="button"
-    @click.stop="deleteProduct = { id: '{{ $product->id }}', name: '{{ addslashes($product->name) }}' }; openDeleteModal = true"
-    class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-red-100 text-red-500 hover:bg-red-50 transition"
->
-    <i data-lucide="trash-2" class="w-4 h-4"></i>
-</button>
+
+    <div class="flex justify-end gap-2">
+
+        <button
+            type="button"
+            @click.stop="
+                editProduct = {
+                    id: '{{ $product->id }}',
+                    name: '{{ addslashes($product->name) }}',
+                    description: '{{ addslashes($product->description) }}',
+                    price: '{{ $product->price }}',
+                    stock: '{{ $product->stock }}'
+                };
+                openEditProduct = true;
+            "
+            class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-indigo-100 text-indigo-600 hover:bg-indigo-50 transition"
+        >
+            <i data-lucide="pencil" class="w-4 h-4"></i>
+        </button>
+
+        <button
+            type="button"
+            @click.stop="deleteProduct = { id: '{{ $product->id }}', name: '{{ addslashes($product->name) }}' }; openDeleteModal = true"
+            class="inline-flex items-center justify-center w-10 h-10 rounded-xl border border-red-100 text-red-500 hover:bg-red-50 transition"
+        >
+            <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+
+    </div>
+
 </td>
 
                             </tr>
