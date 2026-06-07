@@ -30,7 +30,9 @@
         </form>
 
         <p class="mt-6 text-center text-sm text-gray-600">
-            Don't have an account? <a href="#" class="text-blue-600 font-bold hover:underline">Sign up</a>
+            Don't have an account? <a href="{{ route('register') }}" class="text-blue-600 font-semibold">
+    Sign up
+</a>
         </p>
     </div>
 </body>

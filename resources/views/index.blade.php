@@ -428,6 +428,108 @@ class="bg-slate-50 min-h-screen text-slate-900">
 
         </div>
                 <!-- Add Product Modal -->
+                 <!-- Edit Product Modal -->
+<div
+    x-show="openEditProduct"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm"
+>
+    <div
+        @click.away="openEditProduct = false"
+        class="bg-white rounded-3xl w-full max-w-xl shadow-2xl border border-slate-200 overflow-hidden"
+    >
+        <div class="p-6 border-b border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-950">
+                Edit Product
+            </h2>
+
+            <p class="text-sm text-slate-500 mt-1">
+                Update product information and inventory values.
+            </p>
+        </div>
+
+        <form method="POST" :action="'/products/' + editProduct.id" class="p-6 space-y-4">
+            @csrf
+            @method('PUT')
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    x-model="editProduct.name"
+                    required
+                    class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
+                >
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2">
+                    Description
+                </label>
+
+                <textarea
+                    name="description"
+                    x-model="editProduct.description"
+                    required
+                    rows="3"
+                    class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
+                ></textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="price"
+                        x-model="editProduct.price"
+                        required
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">
+                        Stock
+                    </label>
+
+                    <input
+                        type="number"
+                        name="stock"
+                        x-model="editProduct.stock"
+                        required
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
+                    >
+                </div>
+            </div>
+
+            <div class="flex gap-3 pt-4">
+                <button
+                    type="button"
+                    @click="openEditProduct = false"
+                    class="flex-1 py-3 rounded-2xl border border-slate-200 font-semibold hover:bg-slate-50 transition"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="flex-1 py-3 rounded-2xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+                >
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 <div
     x-show="openAddProduct"
     x-cloak

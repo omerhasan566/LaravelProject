@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 // 1. Giriş Sayfası Rotası
 Route::get('/login', function () {
@@ -18,6 +20,26 @@ Route::post('/login', function (Request $request) {
     }
     return back()->withErrors(['email' => 'Hatalı giriş bilgileri.']);
 });
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register');
+
+Route::post('/register', function (Request $request) {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|min:6|confirmed',
+    ]);
+
+    User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+    ]);
+
+    return redirect('/login')->with('success', 'Account created successfully. Please login.');
+})->name('register.store');
 
 // 3. Ana Sayfa (Sadece giriş yapanlar görebilir)
 Route::get('/', function () {
