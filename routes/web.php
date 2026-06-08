@@ -117,7 +117,7 @@ Route::post('/cart/add/{product}', function (Product $product) {
 
     session()->put('cart', $cart);
 
-    return back();
+    return redirect()->route('cart.index');
 })->name('cart.add');
 
 Route::get('/cart', function () {
@@ -125,3 +125,15 @@ Route::get('/cart', function () {
 
     return view('cart', compact('cart'));
 })->name('cart.index');
+
+Route::delete('/cart/remove/{id}', function ($id) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        unset($cart[$id]);
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.remove');
