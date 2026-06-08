@@ -88,3 +88,7 @@ Route::get('/shop', function () {
 
     return view('shop', compact('products'));
 })->name('shop.index');
+
+Route::get('/shop/product/{product}', function (Product $product) {
+    return view('product-detail', compact('product'));
+})->name('shop.product.show');

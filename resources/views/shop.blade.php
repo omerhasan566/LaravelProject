@@ -197,10 +197,13 @@
                         ${{ number_format($product->price, 2) }}
                     </p>
 
-                    <button class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition">
-                        View Product
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
+                    <a
+    href="{{ route('shop.product.show', $product) }}"
+    class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
+>
+    View Product
+    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+</a>
 
                 </div>
             @endforeach
