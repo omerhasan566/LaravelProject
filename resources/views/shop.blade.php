@@ -114,16 +114,14 @@
             </div>
 
             <div class="relative">
-                <div class="bg-white rounded-[2rem] border border-slate-200 shadow-xl p-10">
-                    <div class="aspect-[4/3] rounded-3xl bg-gradient-to-br from-blue-100 via-white to-slate-100 flex items-center justify-center">
-                        <div class="text-center">
-                            <div class="w-28 h-28 mx-auto rounded-3xl bg-blue-600 text-white flex items-center justify-center shadow-lg">
-                                <i data-lucide="shield-check" class="w-14 h-14"></i>
-                            </div>
-                            <p class="mt-6 text-xl font-bold">CyberShield Protection</p>
-                            <p class="text-slate-500 text-sm mt-2">Secure infrastructure solutions</p>
-                        </div>
-                    </div>
+    <div class="rounded-[2rem] overflow-hidden shadow-2xl border border-slate-200 bg-white">
+        <img
+            src="{{ asset('images/hero.png') }}"
+            alt="CyberShield security products"
+            class="w-full h-[430px] object-cover"
+        >
+    </div>
+</div>
                 </div>
             </div>
 
