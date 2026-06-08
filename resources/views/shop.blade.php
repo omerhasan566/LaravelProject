@@ -173,11 +173,13 @@
 
                 <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm hover:shadow-lg transition group">
 
-                    <div class="h-44 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50 border border-slate-100 flex items-center justify-center mb-6">
-                        <div class="w-20 h-20 rounded-3xl bg-white text-blue-600 shadow-sm border border-blue-100 flex items-center justify-center">
-                            <i data-lucide="{{ $icon }}" class="w-10 h-10"></i>
-                        </div>
-                    </div>
+                    <div class="h-52 rounded-2xl overflow-hidden bg-slate-50 mb-6">
+    <img
+        src="{{ asset('images/product.png') }}"
+        alt="Product"
+        class="w-full h-full object-cover"
+    >
+</div>
 
                     <span class="inline-flex items-center px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold mb-4">
                         {{ $cat }}
