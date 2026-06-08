@@ -100,3 +100,28 @@ Route::get('/solutions', function () {
 Route::get('/about', function () {
     return view('about');
 })->name('about');
+
+Route::post('/cart/add/{product}', function (Product $product) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$product->id])) {
+        $cart[$product->id]['quantity']++;
+    } else {
+        $cart[$product->id] = [
+            'id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
+            'quantity' => 1,
+        ];
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.add');
+
+Route::get('/cart', function () {
+    $cart = session()->get('cart', []);
+
+    return view('cart', compact('cart'));
+})->name('cart.index');

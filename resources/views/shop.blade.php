@@ -7,6 +7,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -14,7 +15,12 @@
     </style>
 </head>
 
-<body class="bg-white text-slate-950">
+<body
+x-data="{
+    searchQuery: '',
+    selectedCategory: 'All'
+}"
+class="bg-white text-slate-950">
 
 <header class="border-b border-slate-100 bg-white/95 backdrop-blur-xl sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -151,6 +157,62 @@
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
         <div>
             <h2 class="text-3xl font-bold">Our Security Products</h2>
+            <div class="mt-6">
+    <input
+        type="text"
+        x-model="searchQuery"
+        placeholder="Search products..."
+        class="w-full md:w-96 px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+    <div class="mt-4 flex flex-wrap gap-3">
+
+    <button
+    @click="selectedCategory='All'"
+    :class="selectedCategory === 'All'
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-white text-slate-700 border-slate-200'"
+    class="px-4 py-2 rounded-xl border text-sm transition">
+    All
+</button>
+
+    <button
+    @click="selectedCategory='Network Security'"
+    :class="selectedCategory === 'Network Security'
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-white text-slate-700 border-slate-200'"
+    class="px-4 py-2 rounded-xl border text-sm transition">
+    Network
+</button>
+
+    <button
+    @click="selectedCategory='AI Security'"
+    :class="selectedCategory === 'AI Security'
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-white text-slate-700 border-slate-200'"
+    class="px-4 py-2 rounded-xl border text-sm transition">
+    AI
+</button>
+
+    <button
+    @click="selectedCategory='Hardware Security'"
+    :class="selectedCategory === 'Hardware Security'
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-white text-slate-700 border-slate-200'"
+    class="px-4 py-2 rounded-xl border text-sm transition">
+    Hardware
+</button>
+
+    <button
+    @click="selectedCategory='Biometric Security'"
+    :class="selectedCategory === 'Biometric Security'
+        ? 'bg-blue-600 text-white border-blue-600'
+        : 'bg-white text-slate-700 border-slate-200'"
+    class="px-4 py-2 rounded-xl border text-sm transition">
+    Biometric
+</button>
+
+</div>
+</div>
             <p class="text-slate-500 mt-2">
                 Advanced solutions for every layer of your security infrastructure.
             </p>
@@ -181,7 +243,20 @@
                 }
             @endphp
 
-            <div class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+            <div
+x-show="
+(
+searchQuery === '' ||
+'{{ strtolower($product->name) }}'.includes(searchQuery.toLowerCase())
+)
+&&
+(
+selectedCategory === 'All' ||
+selectedCategory === '{{ $cat }}'
+)
+"
+class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+>
 
                 <div class="h-52 rounded-2xl overflow-hidden bg-slate-50 mb-6">
                     <img
@@ -207,13 +282,25 @@
                     ${{ number_format($product->price, 2) }}
                 </p>
 
-                <a
-                    href="{{ route('shop.product.show', $product) }}"
-                    class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
-                >
-                    View Product
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+                <form method="POST" action="{{ route('cart.add', $product) }}">
+    @csrf
+
+    <button
+        type="submit"
+        class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+    >
+        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+        Add to Cart
+    </button>
+</form>
+
+<a
+    href="{{ route('shop.product.show', $product) }}"
+    class="mt-3 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
+>
+    View Product
+    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+</a>
 
             </div>
         @endforeach
