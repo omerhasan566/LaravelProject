@@ -92,3 +92,11 @@ Route::get('/shop', function () {
 Route::get('/shop/product/{product}', function (Product $product) {
     return view('product-detail', compact('product'));
 })->name('shop.product.show');
+
+Route::get('/solutions', function () {
+    return view('solutions');
+})->name('solutions');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
