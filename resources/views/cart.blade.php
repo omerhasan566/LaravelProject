@@ -63,7 +63,7 @@
 
                         <div class="w-full md:w-32 h-28 rounded-2xl overflow-hidden bg-slate-50 shrink-0">
                             <img
-                                src="{{ asset('images/' . match(true) {
+                                src="{{ !empty($item['image']) ? asset('storage/' . $item['image']) : asset('images/' . match(true) {
     str_contains(strtolower($item['name']), 'neurallink') => 'neurallink.png',
     str_contains(strtolower($item['name']), 'firewall') => 'firewall.png',
     str_contains(strtolower($item['name']), 'biosecure') => 'biosecure.png',

@@ -48,6 +48,21 @@ class="bg-white text-slate-950">
    class="hover:text-blue-600 transition">
     About Us
 </a>
+<a href="{{ route('cart.index') }}"
+   class="relative hover:text-blue-600 transition inline-flex items-center gap-2">
+    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+    Cart
+
+    @php
+        $cartCount = collect(session('cart', []))->sum('quantity');
+    @endphp
+
+    @if($cartCount > 0)
+        <span class="absolute -top-3 -right-4 min-w-5 h-5 px-1 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center">
+            {{ $cartCount }}
+        </span>
+    @endif
+</a>
 
 <a href="#contact"
    class="hover:text-blue-600 transition">
@@ -270,12 +285,12 @@ class="bg-white text-slate-950">
         class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
         <div class="h-52 rounded-2xl overflow-hidden bg-slate-50 mb-6">
-            <img
-                src="{{ asset('images/' . $image) }}"
-                alt="{{ $product->name }}"
-                class="w-full h-full object-cover"
-            >
-        </div>
+    <img
+        src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/' . $image) }}"
+        alt="{{ $product->name }}"
+        class="w-full h-full object-cover"
+    >
+</div>
 
         <span class="inline-flex items-center px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold mb-4">
             {{ $cat }}

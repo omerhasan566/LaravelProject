@@ -58,7 +58,7 @@
         <div class="bg-slate-50 rounded-[2rem] border border-slate-200 p-8">
             <div class="rounded-3xl overflow-hidden bg-white border border-slate-100">
                 <img
-                    src="{{ asset('images/' . match(true) {
+                    src="{{ $product->image ? asset('storage/' . $product->image) : asset('images/' . match(true) {
     str_contains(strtolower($product->name), 'neurallink') => 'neurallink.png',
     str_contains(strtolower($product->name), 'firewall') => 'firewall.png',
     str_contains(strtolower($product->name), 'biosecure') => 'biosecure.png',

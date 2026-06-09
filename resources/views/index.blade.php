@@ -448,7 +448,7 @@ class="bg-slate-50 min-h-screen text-slate-900">
             </p>
         </div>
 
-        <form method="POST" :action="'/products/' + editProduct.id" class="p-6 space-y-4">
+        <form method="POST" :action="'/products/' + editProduct.id" enctype="multipart/form-data" class="p-6 space-y-4">
             @csrf
             @method('PUT')
 
@@ -496,6 +496,18 @@ class="bg-slate-50 min-h-screen text-slate-900">
                     >
                 </div>
 
+<div>
+    <label class="block text-sm font-semibold text-slate-700 mb-2">
+        Change Product Image
+    </label>
+
+    <input
+        type="file"
+        name="image"
+        accept="image/*"
+        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
+    >
+</div>
                 <div>
                     <label class="block text-sm font-semibold text-slate-700 mb-2">
                         Stock
@@ -504,6 +516,7 @@ class="bg-slate-50 min-h-screen text-slate-900">
                     <input
                         type="number"
                         name="stock"
+                        
                         x-model="editProduct.stock"
                         required
                         class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 outline-none"
@@ -548,7 +561,7 @@ class="bg-slate-50 min-h-screen text-slate-900">
             </p>
         </div>
 
-        <form method="POST" action="{{ route('products.store') }}" class="p-6 space-y-4">
+        <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data" class="p-6 space-y-4">
             @csrf
 
             <div>

@@ -48,24 +48,40 @@ Route::get('/', function () {
 })->middleware('auth');
 
 Route::post('/products', function (Request $request) {
+
+    $imagePath = null;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+    }
+
     Product::create([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
         'stock' => $request->stock,
         'category_id' => null,
+        'image' => $imagePath,
     ]);
 
     return redirect('/');
 })->middleware('auth')->name('products.store');
 
 Route::put('/products/{product}', function (Request $request, Product $product) {
+
+    $imagePath = $product->image;
+
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+    }
+
     $product->update([
         'name' => $request->name,
         'description' => $request->description,
         'price' => $request->price,
         'stock' => $request->stock,
         'category_id' => null,
+        'image' => $imagePath,
     ]);
 
     return redirect('/');
@@ -108,11 +124,12 @@ Route::post('/cart/add/{product}', function (Product $product) {
         $cart[$product->id]['quantity']++;
     } else {
         $cart[$product->id] = [
-            'id' => $product->id,
-            'name' => $product->name,
-            'price' => $product->price,
-            'quantity' => 1,
-        ];
+    'id' => $product->id,
+    'name' => $product->name,
+    'price' => $product->price,
+    'quantity' => 1,
+    'image' => $product->image,
+];
     }
 
     session()->put('cart', $cart);
