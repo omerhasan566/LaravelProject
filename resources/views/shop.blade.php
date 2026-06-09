@@ -227,83 +227,93 @@ class="bg-white text-slate-950">
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
         @foreach($products as $product)
-            @php
-                $name = strtolower($product->name);
+    @php
+        $name = strtolower($product->name);
 
-                if (str_contains($name, 'firewall') || str_contains($name, 'network') || str_contains($name, 'router') || str_contains($name, 'blackbox') || str_contains($name, 'penetration')) {
-                    $cat = 'Network Security';
-                } elseif (str_contains($name, 'ai') || str_contains($name, 'engine') || str_contains($name, 'budget')) {
-                    $cat = 'AI Security';
-                } elseif (str_contains($name, 'hardware') || str_contains($name, 'neurallink') || str_contains($name, 'hsm')) {
-                    $cat = 'Hardware Security';
-                } elseif (str_contains($name, 'biosecure') || str_contains($name, 'biometric')) {
-                    $cat = 'Biometric Security';
-                } else {
-                    $cat = 'Enterprise Security';
-                }
-            @endphp
+        if (str_contains($name, 'firewall') || str_contains($name, 'network') || str_contains($name, 'router') || str_contains($name, 'blackbox') || str_contains($name, 'penetration')) {
+            $cat = 'Network Security';
+        } elseif (str_contains($name, 'ai') || str_contains($name, 'engine') || str_contains($name, 'budget')) {
+            $cat = 'AI Security';
+        } elseif (str_contains($name, 'hardware') || str_contains($name, 'neurallink') || str_contains($name, 'hsm')) {
+            $cat = 'Hardware Security';
+        } elseif (str_contains($name, 'biosecure') || str_contains($name, 'biometric')) {
+            $cat = 'Biometric Security';
+        } else {
+            $cat = 'Enterprise Security';
+        }
 
-            <div
-x-show="
-(
-searchQuery === '' ||
-'{{ strtolower($product->name) }}'.includes(searchQuery.toLowerCase())
-)
-&&
-(
-selectedCategory === 'All' ||
-selectedCategory === '{{ $cat }}'
-)
-"
-class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
->
+        $image = match (true) {
+            str_contains($name, 'neurallink') => 'neurallink.png',
+            str_contains($name, 'firewall') => 'firewall.png',
+            str_contains($name, 'biosecure') => 'biosecure.png',
+            str_contains($name, 'budgetai') => 'budgetai.png',
+            str_contains($name, 'zerotrust') => 'zerotrust.png',
+            str_contains($name, 'cryptovault') => 'cryptovault.png',
+            str_contains($name, 'threathunter') => 'threathunter.png',
+            str_contains($name, 'blackbox') => 'blackbox.png',
+            default => 'product.png',
+        };
+    @endphp
 
-                <div class="h-52 rounded-2xl overflow-hidden bg-slate-50 mb-6">
-                    <img
-                        src="{{ asset('images/product.png') }}"
-                        alt="{{ $product->name }}"
-                        class="w-full h-full object-cover"
-                    >
-                </div>
-
-                <span class="inline-flex items-center px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold mb-4">
-                    {{ $cat }}
-                </span>
-
-                <h3 class="text-lg font-bold mb-3 leading-snug">
-                    {{ $product->name }}
-                </h3>
-
-                <p class="text-sm text-slate-500 leading-relaxed min-h-[66px]">
-                    {{ Str::limit($product->description, 95) }}
-                </p>
-
-                <p class="text-xl font-bold mt-6">
-                    ${{ number_format($product->price, 2) }}
-                </p>
-
-                <form method="POST" action="{{ route('cart.add', $product) }}">
-    @csrf
-
-    <button
-        type="submit"
-        class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+    <div
+        x-show="
+            (
+                searchQuery === '' ||
+                '{{ strtolower($product->name) }}'.includes(searchQuery.toLowerCase())
+            )
+            &&
+            (
+                selectedCategory === 'All' ||
+                selectedCategory === '{{ $cat }}'
+            )
+        "
+        class="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
-        <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-        Add to Cart
-    </button>
-</form>
+        <div class="h-52 rounded-2xl overflow-hidden bg-slate-50 mb-6">
+            <img
+                src="{{ asset('images/' . $image) }}"
+                alt="{{ $product->name }}"
+                class="w-full h-full object-cover"
+            >
+        </div>
 
-<a
-    href="{{ route('shop.product.show', $product) }}"
-    class="mt-3 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
->
-    View Product
-    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-</a>
+        <span class="inline-flex items-center px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-semibold mb-4">
+            {{ $cat }}
+        </span>
 
-            </div>
-        @endforeach
+        <h3 class="text-lg font-bold mb-3 leading-snug">
+            {{ $product->name }}
+        </h3>
+
+        <p class="text-sm text-slate-500 leading-relaxed min-h-[66px]">
+            {{ Str::limit($product->description, 95) }}
+        </p>
+
+        <p class="text-xl font-bold mt-6">
+            ${{ number_format($product->price, 2) }}
+        </p>
+
+        <form method="POST" action="{{ route('cart.add', $product) }}">
+            @csrf
+
+            <button
+                type="submit"
+                class="mt-5 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+            >
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                Add to Cart
+            </button>
+        </form>
+
+        <a
+            href="{{ route('shop.product.show', $product) }}"
+            class="mt-3 inline-flex items-center justify-center gap-2 w-full py-3 rounded-xl border border-slate-200 font-semibold hover:bg-blue-600 hover:text-white hover:border-blue-600 transition"
+        >
+            View Product
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+    </div>
+@endforeach
 
     </div>
 </section>

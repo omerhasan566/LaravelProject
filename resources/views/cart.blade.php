@@ -63,7 +63,17 @@
 
                         <div class="w-full md:w-32 h-28 rounded-2xl overflow-hidden bg-slate-50 shrink-0">
                             <img
-                                src="{{ asset('images/product.png') }}"
+                                src="{{ asset('images/' . match(true) {
+    str_contains(strtolower($item['name']), 'neurallink') => 'neurallink.png',
+    str_contains(strtolower($item['name']), 'firewall') => 'firewall.png',
+    str_contains(strtolower($item['name']), 'biosecure') => 'biosecure.png',
+    str_contains(strtolower($item['name']), 'budgetai') => 'budgetai.png',
+    str_contains(strtolower($item['name']), 'zerotrust') => 'zerotrust.png',
+    str_contains(strtolower($item['name']), 'cryptovault') => 'cryptovault.png',
+    str_contains(strtolower($item['name']), 'threathunter') => 'threathunter.png',
+    str_contains(strtolower($item['name']), 'blackbox') => 'blackbox.png',
+    default => 'product.png',
+}) }}"
                                 alt="{{ $item['name'] }}"
                                 class="w-full h-full object-cover"
                             >

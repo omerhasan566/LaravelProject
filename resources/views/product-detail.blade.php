@@ -58,7 +58,17 @@
         <div class="bg-slate-50 rounded-[2rem] border border-slate-200 p-8">
             <div class="rounded-3xl overflow-hidden bg-white border border-slate-100">
                 <img
-                    src="{{ asset('images/product.png') }}"
+                    src="{{ asset('images/' . match(true) {
+    str_contains(strtolower($product->name), 'neurallink') => 'neurallink.png',
+    str_contains(strtolower($product->name), 'firewall') => 'firewall.png',
+    str_contains(strtolower($product->name), 'biosecure') => 'biosecure.png',
+    str_contains(strtolower($product->name), 'budgetai') => 'budgetai.png',
+    str_contains(strtolower($product->name), 'zerotrust') => 'zerotrust.png',
+    str_contains(strtolower($product->name), 'cryptovault') => 'cryptovault.png',
+    str_contains(strtolower($product->name), 'threathunter') => 'threathunter.png',
+    str_contains(strtolower($product->name), 'blackbox') => 'blackbox.png',
+    default => 'product.png',
+}) }}"
                     alt="{{ $product->name }}"
                     class="w-full h-[430px] object-cover"
                 >
