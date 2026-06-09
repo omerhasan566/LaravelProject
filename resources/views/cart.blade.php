@@ -84,13 +84,37 @@
                                 {{ $item['name'] }}
                             </h2>
 
-                            <p class="text-sm text-slate-500 mt-1">
-                                Quantity: {{ $item['quantity'] }}
-                            </p>
+                            <div class="flex items-center gap-3 mt-3">
+
+    <form method="POST" action="{{ route('cart.decrease', $item['id']) }}">
+        @csrf
+        <button
+            type="submit"
+            class="w-9 h-9 rounded-xl border border-slate-200 hover:bg-slate-100 transition"
+        >
+            -
+        </button>
+    </form>
+
+    <span class="font-bold text-lg">
+        {{ $item['quantity'] }}
+    </span>
+
+    <form method="POST" action="{{ route('cart.increase', $item['id']) }}">
+        @csrf
+        <button
+            type="submit"
+            class="w-9 h-9 rounded-xl border border-slate-200 hover:bg-slate-100 transition"
+        >
+            +
+        </button>
+    </form>
+
+</div>
 
                             <p class="text-sm text-slate-500 mt-1">
-                                Unit Price: ${{ number_format($item['price'], 2) }}
-                            </p>
+    Unit Price: ${{ number_format($item['price'], 2) }}
+</p>
                         </div>
 
                         <div class="flex md:flex-col items-center md:items-end justify-between gap-4">
@@ -137,11 +161,12 @@
                     </div>
                 </div>
 
-                <button
-                    class="mt-6 w-full py-4 rounded-2xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
-                >
-                    Contact Sales
-                </button>
+                <a
+    href="{{ route('checkout') }}"
+    class="mt-6 w-full inline-flex justify-center py-4 rounded-2xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+>
+    Request Quote
+</a>
 
                 <a href="{{ route('shop.index') }}"
                    class="mt-3 w-full inline-flex justify-center py-4 rounded-2xl border border-slate-200 font-semibold hover:bg-slate-50 transition">

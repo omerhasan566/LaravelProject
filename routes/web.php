@@ -137,3 +137,89 @@ Route::delete('/cart/remove/{id}', function ($id) {
 
     return back();
 })->name('cart.remove');
+
+Route::post('/cart/increase/{id}', function ($id) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        $cart[$id]['quantity']++;
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.increase');
+
+Route::post('/cart/decrease/{id}', function ($id) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        if ($cart[$id]['quantity'] > 1) {
+            $cart[$id]['quantity']--;
+        } else {
+            unset($cart[$id]);
+        }
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.decrease');
+
+Route::get('/checkout', function () {
+    $cart = session()->get('cart', []);
+
+    if (count($cart) === 0) {
+        return redirect()->route('cart.index');
+    }
+
+    return view('checkout', compact('cart'));
+})->name('checkout');
+
+Route::post('/cart/increase/{id}', function ($id) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        $cart[$id]['quantity']++;
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.increase');
+
+Route::post('/cart/decrease/{id}', function ($id) {
+    $cart = session()->get('cart', []);
+
+    if (isset($cart[$id])) {
+        if ($cart[$id]['quantity'] > 1) {
+            $cart[$id]['quantity']--;
+        } else {
+            unset($cart[$id]);
+        }
+    }
+
+    session()->put('cart', $cart);
+
+    return back();
+})->name('cart.decrease');
+
+Route::get('/checkout', function () {
+    $cart = session()->get('cart', []);
+
+    if (count($cart) === 0) {
+        return redirect()->route('cart.index');
+    }
+
+    return view('checkout', compact('cart'));
+})->name('checkout');
+
+Route::post('/checkout/submit', function () {
+    session()->forget('cart');
+
+    return redirect()->route('checkout.success');
+})->name('checkout.submit');
+
+Route::get('/checkout/success', function () {
+    return view('checkout-success');
+})->name('checkout.success');
